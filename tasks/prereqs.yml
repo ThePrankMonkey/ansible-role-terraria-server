@@ -1,0 +1,34 @@
+---
+# tasks file for terraria_server :: prereqs
+- debug:
+    msg:
+      - "#####################################"
+      - "##                                 ##"
+      - "##    terraria_server - prereqs    ##"
+      - "##                                 ##"
+      - "#####################################"
+- name: Get packages
+  yum:
+    name:
+      - unzip
+      - screen
+    state: present
+- name: Make service account home
+  file:
+    path: /srv/terraria
+    state: directory
+- name: Create terraria User
+  user:
+    name: terraria
+    home: /srv/terraria
+    system: yes
+    shell: /usr/sbin/nologin
+- name: Make package folder
+  file:
+    path: /opt/terraria
+    state: directory
+- name: Add terrariad
+  copy:
+    src: terrariad
+    dest: /usr/local/bin/terrariad
+    mode: 0755

@@ -1,0 +1,5 @@
+<service>
+  <short>Terraria</short>
+  <description>Open TCP port 7777 for incoming Terraria client connections.</description>
+  <port protocol="tcp" port="7777"/>
+</service>

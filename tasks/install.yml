@@ -1,0 +1,33 @@
+---
+# tasks file for terraria_server :: install
+- debug:
+    msg:
+      - "#####################################"
+      - "##                                 ##"
+      - "##    terraria_server - install    ##"
+      - "##                                 ##"
+      - "#####################################"
+- name: Download/Extract terraria server
+  unarchive:
+    src: http://terraria.org/server/terraria-server-{{ terraria_version }}.zip
+    dest: /tmp
+    remote_src: yes
+- name: Move Terraia
+  command: mv /tmp/{{ terraria_version }}/Linux/* /opt/terraria
+  args:
+    creates: /opt/terraria/TerrariaServer.bin.x86_64
+- name: Set Executable
+  file:
+    path: /opt/terraria/TerrariaServer.bin.x86_64
+    state: present
+    mode: 0755
+- name: Add service file
+  copy:
+    src: terraria.service
+    dest: /etc/systemd/system/terraria.service
+- name: Start terraria
+  systemd:
+    service: terraria
+    enabled: yes
+    state: started
+    daemon_reload: yes

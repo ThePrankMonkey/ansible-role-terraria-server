@@ -1,0 +1,26 @@
+---
+# tasks file for terraria_server :: network
+- debug:
+    msg:
+      - "#####################################"
+      - "##                                 ##"
+      - "##    terraria_server - network    ##"
+      - "##                                 ##"
+      - "#####################################"
+- name: Ensure FirewallD is running
+  systemd:
+    name: firewalld
+    enabled: yes
+    state: started
+- name: Add FirewallD Service
+  copy:
+    src: terraria.xml
+    path: /etc/firewalld/services/terraria.xml
+  notify: restart_firewalld
+- meta: flush_handlers
+- name: Open Terraria Port
+  firewalld:
+    service: terraria
+    permanent: yes
+    immediate: yes
+    state: enabled

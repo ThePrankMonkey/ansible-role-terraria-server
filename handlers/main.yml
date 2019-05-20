@@ -1,0 +1,6 @@
+---
+# handlers file for terraria_server
+- name: restart_firewalld
+  systemd:
+    name: firewalld
+    state: restarted
